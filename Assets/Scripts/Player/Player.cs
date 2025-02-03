@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+ 
     [Header("Move info")]
     public float moveSpeed = 5f;
     public float jumpForce;
