@@ -1,36 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent (typeof(CapsuleCollider2D))]
-
-
 [RequireComponent(typeof(AudioSource))]
-//脚本移动
+//角色控制
 public class Playermove : MonoBehaviour
 {
     private Rigidbody2D rb;
     private CapsuleCollider2D coll;
     public SpriteRenderer sprite;
     public Animator anim;
+    private float dirX = 0f;//方向
+    private enum MovementState { Idle, Run, Jump };//移动状态
 
-    [SerializeField] private LayerMask jumpableGround;
-
-    private float dirX = 0f;
+    [SerializeField] private LayerMask jumpableGround;// 可跳跃的地面
+    [Header("移动速度")]
     [SerializeField] private float moveSpeed = 7f;
+    [Header("跳跃力")]
     [SerializeField] private float jumpForce = 7f;
-
-    private enum MovementState { Idle, Run, Jump }
-
+    [Header("音效")]
     [SerializeField] private AudioSource jumpSoundEffect;
 
+   
+     
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<CapsuleCollider2D>();
-
-     
     }
 
     // Update is called once per frame
@@ -38,9 +37,10 @@ public class Playermove : MonoBehaviour
     {
         //左右移动方向
         dirX = Input.GetAxisRaw("Horizontal");
-        //移动速度
+        //移动速度(维持y轴的速度)
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
+        //按下按钮且是地面
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {   
             //播放跳跃的音乐
@@ -57,13 +57,11 @@ public class Playermove : MonoBehaviour
         if (dirX > 0f)
         {
             state = MovementState.Run;
-            //sprite.flipX = false;
             transform.localScale = new Vector3(1, 1, 1);
         }
         else if (dirX < 0f)
         {
             state = MovementState.Run;
-            //sprite.flipX = true;
             transform.localScale = new Vector3(-1, 1, 1);
         }
         else
@@ -80,6 +78,9 @@ public class Playermove : MonoBehaviour
     }
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        //public static RaycastHit2D BoxCast (Vector2 origin, Vector2 size, float angle, Vector2 direction,
+        //float distance= Mathf.Infinity, int layerMask= Physics2D.AllLayers, float minDepth= -Mathf.Infinity, float maxDepth= Mathf.Infinity);
+        // 拖动一个大小为coll的盒子(向下，distance=0.1f)，检查是否有碰撞
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
     }
 }
