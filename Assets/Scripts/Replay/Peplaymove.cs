@@ -60,13 +60,8 @@ public class Peplaymove : MonoBehaviour
                     dirX = 0.0f;
                 else  if (actionBase.actions[0].state[0] == Action.RecordState.Right_End)
                     dirX = 0.0f;
-
-                
-
                 if (actionBase.actions[0].state[0] == Action.RecordState.Jump_Start)
                 {
-                    
-                    
                     //前一个的方向
                     rb.velocity = new Vector2(preDirX * moveSpeed, jumpForce);
                     
@@ -84,17 +79,6 @@ public class Peplaymove : MonoBehaviour
                 rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
             }
         }
-
-       
-
-        ////按下按钮且是地面
-        //if (Input.GetButtonDown("Jump") && IsGrounded())
-        //{
-        //    //播放跳跃的音乐
-            
-        //    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        //}
-
         UpdateAnimationState();
     }
     private void UpdateAnimationState()

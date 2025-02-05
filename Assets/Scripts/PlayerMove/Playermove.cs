@@ -23,13 +23,17 @@ public class Playermove : MonoBehaviour
     [SerializeField] private float jumpForce = 7f;
     [Header("音效")]
     [SerializeField] private AudioSource jumpSoundEffect;
+    [Header("有摩擦")]
+    public PhysicsMaterial2D p1;    // 有摩擦力的
+    [Header("无摩擦")]
+    public PhysicsMaterial2D p2;    // 无摩擦力的
 
-   
-     
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<CapsuleCollider2D>();
+        rb.sharedMaterial = p1;
     }
 
     // Update is called once per frame
@@ -48,7 +52,13 @@ public class Playermove : MonoBehaviour
             jumpSoundEffect.Play();
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
-
+        if (IsGrounded())
+        {
+            rb.sharedMaterial = p1;
+        }else
+        {
+            rb.sharedMaterial = p2;
+        }
         UpdateAnimationState();
     }
     private void UpdateAnimationState()
