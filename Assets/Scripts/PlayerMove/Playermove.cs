@@ -6,22 +6,23 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent (typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(AudioSource))]
-//½ÇÉ«¿ØÖÆ
+//ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½
 public class Playermove : MonoBehaviour
 {
     private Rigidbody2D rb;
     private CapsuleCollider2D coll;
     public SpriteRenderer sprite;
     public Animator anim;
-    private float dirX = 0f;//·½Ïò
-    private enum MovementState { Idle, Run, Jump };//ÒÆ¶¯×´Ì¬
+    private float dirX = 0f;//ï¿½ï¿½ï¿½ï¿½
+    private bool isJumping = false;
+    private enum MovementState { Idle, Run, Jump };//ï¿½Æ¶ï¿½×´Ì¬
 
-    [SerializeField] private LayerMask jumpableGround;// ¿ÉÌøÔ¾µÄµØÃæ
-    [Header("ÒÆ¶¯ËÙ¶È")]
+    [SerializeField] private LayerMask jumpableGround;// ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½Äµï¿½ï¿½ï¿½
+    [Header("ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½")]
     [SerializeField] private float moveSpeed = 7f;
-    [Header("ÌøÔ¾Á¦")]
+    [Header("ï¿½ï¿½Ô¾ï¿½ï¿½")]
     [SerializeField] private float jumpForce = 7f;
-    [Header("ÒôÐ§")]
+    [Header("ï¿½ï¿½Ð§")]
     [SerializeField] private AudioSource jumpSoundEffect;
 
    
@@ -32,25 +33,78 @@ public class Playermove : MonoBehaviour
         coll = GetComponent<CapsuleCollider2D>();
     }
 
-    // Update is called once per frame
-    private void Update()
+    void Update()
     {
-        //×óÓÒÒÆ¶¯·½Ïò
-        dirX = Input.GetAxisRaw("Horizontal");
-        //ÒÆ¶¯ËÙ¶È(Î¬³ÖyÖáµÄËÙ¶È)
-     
-         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);//¸Ä³É¸øÒ»¸öË²¼äÁ¦
+        // èŽ·å–æ°´å¹³è¾“å…¥
+        HandleMovementInput();
 
-        //°´ÏÂ°´Å¥ÇÒÊÇµØÃæ
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        {   
-            //²¥·ÅÌøÔ¾µÄÒôÀÖ
-            jumpSoundEffect.Play();
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        // èŽ·å–è·³è·ƒè¾“å…¥
+        HandleJumpInput();
+    }
+
+    private void FixedUpdate()
+    {
+        // å¤„ç†è§’è‰²çš„ç‰©ç†ç§»åŠ¨
+        Move();
+
+        // å¤„ç†è·³è·ƒï¼ˆç‰©ç†æ–¹é¢çš„æ›´æ–°ï¼‰
+        if (isJumping && IsGrounded())
+        {
+            Jump();
         }
 
+        // æ›´æ–°åŠ¨ç”»çŠ¶æ€
         UpdateAnimationState();
     }
+
+    // å¤„ç†æ°´å¹³ç§»åŠ¨è¾“å…¥
+    private void HandleMovementInput()
+    {
+        if(Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.A))
+        {
+             dirX = 0f;
+             return;
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            dirX = -1f; // A é”®æŒ‰ä¸‹ï¼Œå€¼ä¸º -1
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            dirX = 1f;  // D é”®æŒ‰ä¸‹ï¼Œå€¼ä¸º 1
+        }
+        else
+        {
+            dirX = 0f;  // æ²¡æœ‰æŒ‰é”®ï¼Œæ°´å¹³é€Ÿåº¦ä¸º 0
+        }
+
+        
+    }
+
+    // å¤„ç†è·³è·ƒè¾“å…¥
+    private void HandleJumpInput()
+    {
+        // æ£€æµ‹è·³è·ƒæŒ‰é”®
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            isJumping = true; // è®¾ç½®è·³è·ƒæ ‡å¿—
+        }
+    }
+
+    // å¤„ç†ç‰©ç†æ°´å¹³ç§»åŠ¨
+    private void Move()
+    {
+        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y); // æ›´æ–°åˆšä½“çš„æ°´å¹³é€Ÿåº¦
+    }
+
+    // æ‰§è¡Œè·³è·ƒåŠ¨ä½œ
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce); // è·³è·ƒæ—¶æ”¹å˜åž‚ç›´é€Ÿåº¦
+        isJumping = false; // è·³è·ƒåŽé‡ç½®è·³è·ƒæ ‡å¿—
+    }
+
     private void UpdateAnimationState()
     {
         MovementState state;
@@ -58,12 +112,12 @@ public class Playermove : MonoBehaviour
         if (dirX > 0f)
         {
             state = MovementState.Run;
-            transform.localScale = new Vector3(1, 1, 1);
+            // transform.localScale = new Vector3(1, 1, 1);
         }
         else if (dirX < 0f)
         {
             state = MovementState.Run;
-            transform.localScale = new Vector3(-1, 1, 1);
+            // transform.localScale = new Vector3(-1, 1, 1);
         }
         else
         {
@@ -81,7 +135,7 @@ public class Playermove : MonoBehaviour
     {
         //public static RaycastHit2D BoxCast (Vector2 origin, Vector2 size, float angle, Vector2 direction,
         //float distance= Mathf.Infinity, int layerMask= Physics2D.AllLayers, float minDepth= -Mathf.Infinity, float maxDepth= Mathf.Infinity);
-        // ÍÏ¶¯Ò»¸ö´óÐ¡ÎªcollµÄºÐ×Ó(ÏòÏÂ£¬distance=0.1f)£¬¼ì²éÊÇ·ñÓÐÅö×²
+        // ï¿½Ï¶ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ð¡Îªcollï¿½Äºï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Â£ï¿½distance=0.1f)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½×²
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
     }
 }

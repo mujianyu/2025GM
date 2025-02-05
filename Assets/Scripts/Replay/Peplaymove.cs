@@ -6,25 +6,24 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(AudioSource))]
-//½ÇÉ«¿ØÖÆ
+//ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½
 public class Peplaymove : MonoBehaviour
 {
     private Rigidbody2D rb;
     private CapsuleCollider2D coll;
     public SpriteRenderer sprite;
     public Animator anim;
-    private float dirX = 0f;//·½Ïò
+    private float dirX = 0f;//ï¿½ï¿½ï¿½ï¿½
     private float StartTime= 0f;
     private float CurrentTime = 0f;
-    private enum MovementState { Idle, Run, Jump };//ÒÆ¶¯×´Ì¬
+    private enum MovementState { Idle, Run, Jump };//ï¿½Æ¶ï¿½×´Ì¬
     public ActionBase actionBase;
 
 
-    private float preDirX=0f;
-    [SerializeField] private LayerMask jumpableGround;// ¿ÉÌøÔ¾µÄµØÃæ
-    [Header("ÒÆ¶¯ËÙ¶È")]
+    [SerializeField] private LayerMask jumpableGround;// ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½Äµï¿½ï¿½ï¿½
+    [Header("ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½")]
     [SerializeField] private float moveSpeed = 7f;
-    [Header("ÌøÔ¾Á¦")]
+    [Header("ï¿½ï¿½Ô¾ï¿½ï¿½")]
     [SerializeField] private float jumpForce = 7f;
 
 
@@ -36,61 +35,126 @@ public class Peplaymove : MonoBehaviour
         coll = GetComponent<CapsuleCollider2D>();
         StartTime = Time.time;
         CurrentTime = Time.time;
+
+        
     }
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
-        //×óÓÒÒÆ¶¯·½Ïò
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½
         //dirX = Input.GetAxisRaw("Horizontal");
-
-        //ÒÆ¶¯ËÙ¶È(Î¬³ÖyÖáµÄËÙ¶È)
-        dirX= 0f;
+        //ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½(Î¬ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½Ù¶ï¿½)
         CurrentTime = Time.time - StartTime;
 
         if (actionBase.actions.Count > 0)
         {
-            if(CurrentTime >= actionBase.actions[0].time)
+            List<Action> canActions = new List<Action>();
+
+            foreach (var action in actionBase.actions)
             {
-                if (actionBase.actions[0].state[0] == Action.RecordState.Left_Start )
-                    dirX = -1.0f;
-                else if(actionBase.actions[0].state[0] == Action.RecordState.Right_Start)
-                    dirX = 1.0f;
-                else if(actionBase.actions[0].state[0] == Action.RecordState.Left_End)
-                    dirX = 0.0f;
-                else  if (actionBase.actions[0].state[0] == Action.RecordState.Right_End)
-                    dirX = 0.0f;
-
-                
-
-                if (actionBase.actions[0].state[0] == Action.RecordState.Jump_Start)
+                if(CurrentTime >=action.time)
                 {
+                    canActions.Add(action);
                     
-                    
-                    //Ç°Ò»¸öµÄ·½Ïò
-                    rb.velocity = new Vector2(preDirX * moveSpeed, jumpForce);
-                    
-                }else
-                {
-                    preDirX = dirX;
-                    rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+                }else{
+                    break;
                 }
+            }
+
+
+            List<Action.RecordState> combinedState = new List<Action.RecordState>();
+            for (int i = 0; i < canActions.Count; i++)
+            {
                 
+                if(canActions[i].state.Contains(Action.RecordState.Jump))
+                {
+                    combinedState.Add(Action.RecordState.Jump);
+                }
+
+                if(canActions[i].state.Contains(Action.RecordState.Tran))
+                {
+                    combinedState.Add(Action.RecordState.Tran);
+                }
+
+                if(i == canActions.Count-1)
+                {
+                    if(canActions[i].state.Contains(Action.RecordState.Left))
+                        combinedState.Add(Action.RecordState.Left);
+                    if(canActions[i].state.Contains(Action.RecordState.Right))
+                        combinedState.Add(Action.RecordState.Right); 
+                }
+
                 actionBase.actions.RemoveAt(0);
             }
-            else
+
+            int tranCount = combinedState.FindAll(s => s == Action.RecordState.Tran).Count;
+            tranCount %= 2;
+            combinedState.RemoveAll(s => s == Action.RecordState.Tran);
+            if(tranCount == 1)
             {
-                dirX = preDirX;
+                combinedState.Add(Action.RecordState.Tran);
+            }
+
+
+            if(canActions.Count >0)
+            {
+                
+                // ä½¿ç”¨ string.Join å°†æ•°ç»„çš„å€¼è¿žæŽ¥ä¸ºä¸€ä¸ªå­—ç¬¦ä¸²
+                Debug.Log(string.Join(", ", combinedState));
+
+                if (combinedState.Contains(Action.RecordState.Left) )
+                {
+                    dirX = -1.0f;
+                }
+                if(combinedState.Contains(Action.RecordState.Right) )
+                {
+                    dirX = 1.0f;
+                }
+                
+                if( combinedState.Contains(Action.RecordState.Right) && combinedState.Contains(Action.RecordState.Left))
+                {
+                    dirX = 0f;
+                }
+                
+
+                if( !combinedState.Contains(Action.RecordState.Right) && !combinedState.Contains(Action.RecordState.Left))
+                {
+                    dirX = 0f;
+                }
+
+                rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+
+                if (combinedState.Contains( Action.RecordState.Jump) && IsGrounded())
+                {
+                    
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    
+                }
+
+                // if(actionBase.actions.Count == 0)
+                // {
+                //     actionBase.actions.Add
+                // }
+
+                
+            }else
+            {   
                 rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
             }
+
+            
+        }else{
+            dirX = 0f;
+            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         }
 
        
 
-        ////°´ÏÂ°´Å¥ÇÒÊÇµØÃæ
+        ////ï¿½ï¿½ï¿½Â°ï¿½Å¥ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½
         //if (Input.GetButtonDown("Jump") && IsGrounded())
         //{
-        //    //²¥·ÅÌøÔ¾µÄÒôÀÖ
+        //    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             
         //    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         //}
@@ -104,12 +168,12 @@ public class Peplaymove : MonoBehaviour
         if (dirX > 0f)
         {
             state = MovementState.Run;
-            transform.localScale = new Vector3(1, 1, 1);
+            // transform.localScale = new Vector3(1, 1, 1);
         }
         else if (dirX < 0f)
         {
             state = MovementState.Run;
-            transform.localScale = new Vector3(-1, 1, 1);
+            // transform.localScale = new Vector3(-1, 1, 1);
         }
         else
         {
@@ -127,7 +191,7 @@ public class Peplaymove : MonoBehaviour
     {
         //public static RaycastHit2D BoxCast (Vector2 origin, Vector2 size, float angle, Vector2 direction,
         //float distance= Mathf.Infinity, int layerMask= Physics2D.AllLayers, float minDepth= -Mathf.Infinity, float maxDepth= Mathf.Infinity);
-        // ÍÏ¶¯Ò»¸ö´óÐ¡ÎªcollµÄºÐ×Ó(ÏòÏÂ£¬distance=0.1f)£¬¼ì²éÊÇ·ñÓÐÅö×²
+        // ï¿½Ï¶ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ð¡Îªcollï¿½Äºï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Â£ï¿½distance=0.1f)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½×²
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
     }
 }
