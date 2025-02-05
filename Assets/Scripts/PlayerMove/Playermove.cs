@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent (typeof(CapsuleCollider2D))]
@@ -39,11 +38,16 @@ public class Playermove : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+
         //左右移动方向
-        dirX = Input.GetAxisRaw("Horizontal");
+        //dirX = Input.GetAxisRaw("Horizontal");
         //移动速度(维持y轴的速度)
-     
-         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);//改成给一个瞬间力
+        //if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
+        //    dirX = 0f;
+        if (Input.GetKey(KeyCode.A)) dirX = -1f;
+        else if (Input.GetKey(KeyCode.D)) dirX = 1f;
+        else dirX = 0f;
+        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);//改成给一个瞬间力
 
         //按下按钮且是地面
         if (Input.GetButtonDown("Jump") && IsGrounded())

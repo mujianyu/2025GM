@@ -18,7 +18,7 @@ public class Peplaymove : MonoBehaviour
     private float CurrentTime = 0f;
     private enum MovementState { Idle, Run, Jump };//移动状态
     public ActionBase actionBase;
-
+    private float tmpDir = 0f;
 
     private float preDirX=0f;
     [SerializeField] private LayerMask jumpableGround;// 可跳跃的地面
@@ -28,7 +28,7 @@ public class Peplaymove : MonoBehaviour
     [SerializeField] private float jumpForce = 7f;
 
 
-
+    public List<int> t;
 
     private void Start()
     {
@@ -50,23 +50,48 @@ public class Peplaymove : MonoBehaviour
 
         if (actionBase.actions.Count > 0)
         {
-            if(CurrentTime >= actionBase.actions[0].time)
+            if (CurrentTime >= actionBase.actions[0].time)
             {
-                if (actionBase.actions[0].state[0] == Action.RecordState.Left_Start )
+
+                if (actionBase.actions[0].state[0] == Action.RecordState.Left_Start)
+                {
+                    t.Insert(0,-1);
                     dirX = -1.0f;
-                else if(actionBase.actions[0].state[0] == Action.RecordState.Right_Start)
+                }
+                else if (actionBase.actions[0].state[0] == Action.RecordState.Right_Start)
+                {
+                    t.Insert(0, 1);
                     dirX = 1.0f;
-                else if(actionBase.actions[0].state[0] == Action.RecordState.Left_End)
-                    dirX = 0.0f;
-                else  if (actionBase.actions[0].state[0] == Action.RecordState.Right_End)
-                    dirX = 0.0f;
+                }
+                else if (actionBase.actions[0].state[0] == Action.RecordState.Left_End)
+                {
+                    if (t.Count > 0 && t[0] == -1)
+                    {
+                        t.RemoveAt(0);
+                        dirX = 0.0f;
+                    }
+                    else dirX = preDirX;
+                }
+                else if (actionBase.actions[0].state[0] == Action.RecordState.Right_End)
+                {
+                    if (t.Count > 0 && t[0] == 1)
+                    {
+                        t.RemoveAt(0);
+                        dirX = 0.0f;
+                    }
+                    else dirX = preDirX;
+
+                }
+                // 向左移动 向右移动 跳跃 
+
                 if (actionBase.actions[0].state[0] == Action.RecordState.Jump_Start)
                 {
                     //前一个的方向
                     rb.velocity = new Vector2(preDirX * moveSpeed, jumpForce);
-                    
-                }else
+                       
+                }else 
                 {
+                    
                     preDirX = dirX;
                     rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
                 }
@@ -75,6 +100,7 @@ public class Peplaymove : MonoBehaviour
             }
             else
             {
+                //没有到下一个动作的时间
                 dirX = preDirX;
                 rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
             }
