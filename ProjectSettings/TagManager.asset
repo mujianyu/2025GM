@@ -11,9 +11,9 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
+  - ReplayPlayer
+  - Player
+  - wall
   - 
   - 
   - 
@@ -40,4 +40,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Replayer
+    uniqueID: 3746073805
+    locked: 0
+  - name: Player
+    uniqueID: 3519312889
     locked: 0

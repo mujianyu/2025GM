@@ -7,4 +7,9 @@ public class ActionBase : ScriptableObject
 {
     
     public List<Action> actions = new List<Action>();
+    public void clear()
+    {
+        actions.Clear();
+    }
+
 }

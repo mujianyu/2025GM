@@ -7,9 +7,13 @@ using UnityEngine;
 public class RercordAction : MonoBehaviour
 {
     public ActionBase actionBase;
-
+    public bool RecordStart=false;
     private void Update()
     {
+        if(!RecordStart)
+        {
+            return;
+        }
         List<Action.RecordState> state=new List<Action.RecordState>();
         float time=Time.time;
         if (Input.GetKeyDown(KeyCode.A))
@@ -37,10 +41,6 @@ public class RercordAction : MonoBehaviour
             state.Add(Action.RecordState.Right_End);
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            state.Add(Action.RecordState.Jump_End);
-        }
 
         for (int i = 0; i < state.Count; i++)
         {

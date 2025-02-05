@@ -38,7 +38,8 @@ public class Playermove : MonoBehaviour
         //左右移动方向
         dirX = Input.GetAxisRaw("Horizontal");
         //移动速度(维持y轴的速度)
-        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+     
+         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);//改成给一个瞬间力
 
         //按下按钮且是地面
         if (Input.GetButtonDown("Jump") && IsGrounded())
