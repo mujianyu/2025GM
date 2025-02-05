@@ -24,13 +24,17 @@ public class Playermove : MonoBehaviour
     [SerializeField] private float jumpForce = 7f;
     [Header("��Ч")]
     [SerializeField] private AudioSource jumpSoundEffect;
+    [Header("��Ħ��")]
+    public PhysicsMaterial2D p1;    // ��Ħ������
+    [Header("��Ħ��")]
+    public PhysicsMaterial2D p2;    // ��Ħ������
 
-   
-     
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<CapsuleCollider2D>();
+        rb.sharedMaterial = p1;
     }
 
     void Update()
@@ -103,6 +107,19 @@ public class Playermove : MonoBehaviour
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce); // 跳跃时改变垂直速度
         isJumping = false; // 跳跃后重置跳跃标志
+        {   
+            //������Ծ������
+            jumpSoundEffect.Play();
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+        if (IsGrounded())
+        {
+            rb.sharedMaterial = p1;
+        }else
+        {
+            rb.sharedMaterial = p2;
+        }
+        UpdateAnimationState();
     }
 
     private void UpdateAnimationState()

@@ -148,17 +148,6 @@ public class Peplaymove : MonoBehaviour
             dirX = 0f;
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         }
-
-       
-
-        ////���°�ť���ǵ���
-        //if (Input.GetButtonDown("Jump") && IsGrounded())
-        //{
-        //    //������Ծ������
-            
-        //    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        //}
-
         UpdateAnimationState();
     }
     private void UpdateAnimationState()
