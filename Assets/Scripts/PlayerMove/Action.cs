@@ -7,11 +7,13 @@ using UnityEngine;
 public class Action 
 {
     public enum RecordState { Left, Right, Jump,Tran };
+    
     public List<RecordState> state;
     public float time;
-    public Action(List<RecordState> initialState,float time)
+
+    public Action(List<RecordState> state,float time)
     {
-        state = initialState;
+        this.state = state;
         this.time = time;
     }
 }

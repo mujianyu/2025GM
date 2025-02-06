@@ -3,6 +3,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "PlayerAction", menuName = "ScriptableObject/Íæ¼ÒÐÐÎª", order = 0)]
+[System.Serializable]
 public class ActionBase : ScriptableObject
 {
     

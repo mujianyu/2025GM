@@ -4,63 +4,102 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent (typeof(CapsuleCollider2D))]
+[RequireComponent (typeof(BoxCollider2D))]
 [RequireComponent(typeof(AudioSource))]
-//��ɫ����
+
 public class Playermove : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private CapsuleCollider2D coll;
+    private BoxCollider2D coll;
     public SpriteRenderer sprite;
     public Animator anim;
-    private float dirX = 0f;//����
+    private float dirX = 0f;
     private bool isJumping = false;
-    private enum MovementState { Idle, Run, Jump };//�ƶ�״̬
+    private enum MovementState { Idle, Run, Jump,Box };
 
-    [SerializeField] private LayerMask jumpableGround;// ����Ծ�ĵ���
-    [Header("�ƶ��ٶ�")]
-    [SerializeField] private float moveSpeed = 7f;
-    [Header("��Ծ��")]
-    [SerializeField] private float jumpForce = 7f;
-    [Header("��Ч")]
-    [SerializeField] private AudioSource jumpSoundEffect;
-    [Header("��Ħ��")]
-    public PhysicsMaterial2D p1;    // ��Ħ������
-    [Header("��Ħ��")]
-    public PhysicsMaterial2D p2;    // ��Ħ������
+    [SerializeField] 
+    private LayerMask jumpableGround;
+    [Header("移动速度")]
+    [SerializeField] 
+    private float moveSpeed = 7f;
+    [Header("跳跃力")]
+    [SerializeField] 
+    private float jumpForce = 7f;
+    [Header("跳跃音效")]
+    [SerializeField] 
+    private AudioSource jumpSoundEffect;
+    [Header("有摩擦")]
+    public PhysicsMaterial2D p1;    
+    [Header("无摩擦")]
+    public PhysicsMaterial2D p2;    
+    private bool isbox = false;
+    private float pregravity;
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<CapsuleCollider2D>();
+        coll = GetComponent<BoxCollider2D>();
         rb.sharedMaterial = p1;
+        pregravity=rb.gravityScale;
     }
 
     void Update()
     {
+
+        //获取变换box输入
+        HandleChangeInput();
+        if(isbox)
+        {
+            return;
+        }
         // 获取水平输入
         HandleMovementInput();
-
+        
         // 获取跳跃输入
         HandleJumpInput();
     }
 
     private void FixedUpdate()
     {
-        // 处理角色的物理移动
-        Move();
-
-        // 处理跳跃（物理方面的更新）
-        if (isJumping && IsGrounded())
+        if (isbox)
         {
-            Jump();
+            //静止物体的移动和跳跃
+            changeBox();
+        }
+        else
+        {
+            //恢复重力
+            rb.gravityScale = pregravity;
+            // 处理角色的物理移动
+            Move();
+
+            // 处理跳跃（物理方面的更新）
+            if (isJumping && IsGrounded())
+            {
+                Jump();
+            }
+
+
+            // 根据是否在地面上，切换材质
+            if (IsGrounded())
+            {
+                rb.sharedMaterial = p1;
+            }
+            else
+            {
+                rb.sharedMaterial = p2;
+            }
         }
 
         // 更新动画状态
         UpdateAnimationState();
     }
-
+    private void changeBox()
+    {
+        rb.velocity = new Vector2(0, 0);
+        rb.gravityScale = 0;
+    }
     // 处理水平移动输入
     private void HandleMovementInput()
     {
@@ -85,6 +124,15 @@ public class Playermove : MonoBehaviour
 
         
     }
+    //处理变换box
+    private void HandleChangeInput()
+    {
+        if (Input.GetKeyDown(KeyCode.RightShift)){
+            isbox = !isbox;
+        }
+
+
+    }
 
     // 处理跳跃输入
     private void HandleJumpInput()
@@ -107,19 +155,7 @@ public class Playermove : MonoBehaviour
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce); // 跳跃时改变垂直速度
         isJumping = false; // 跳跃后重置跳跃标志
-        {   
-            //������Ծ������
-            jumpSoundEffect.Play();
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        }
-        if (IsGrounded())
-        {
-            rb.sharedMaterial = p1;
-        }else
-        {
-            rb.sharedMaterial = p2;
-        }
-        UpdateAnimationState();
+        jumpSoundEffect.Play();//播放跳跃音效
     }
 
     private void UpdateAnimationState()
@@ -129,12 +165,12 @@ public class Playermove : MonoBehaviour
         if (dirX > 0f)
         {
             state = MovementState.Run;
-            // transform.localScale = new Vector3(1, 1, 1);
+             transform.localScale = new Vector3(1, 1, 1);
         }
         else if (dirX < 0f)
         {
             state = MovementState.Run;
-            // transform.localScale = new Vector3(-1, 1, 1);
+             transform.localScale = new Vector3(-1, 1, 1);
         }
         else
         {
@@ -145,14 +181,19 @@ public class Playermove : MonoBehaviour
         {
             state = MovementState.Jump;
         }
-        
+
+        if(isbox)
+        {
+            state = MovementState.Box;
+        }
+
         anim.SetInteger("state", (int)state);
     }
+
     private bool IsGrounded()
     {
-        //public static RaycastHit2D BoxCast (Vector2 origin, Vector2 size, float angle, Vector2 direction,
-        //float distance= Mathf.Infinity, int layerMask= Physics2D.AllLayers, float minDepth= -Mathf.Infinity, float maxDepth= Mathf.Infinity);
-        // �϶�һ����СΪcoll�ĺ���(���£�distance=0.1f)������Ƿ�����ײ
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
+        Vector2 size = new Vector2(coll.bounds.size.x / 2, coll.bounds.size.y);
+        Vector2 pos = new Vector2(coll.bounds.center.x, coll.bounds.center.y - coll.bounds.size.y / 2);
+        return Physics2D.BoxCast(pos, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
     }
 }
