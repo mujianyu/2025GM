@@ -31,6 +31,11 @@ public class Replaymove : MonoBehaviour
     private MovementState state;
     private bool isbox = false;
     private float pregravity;
+    private string ReplayPlayerlayer = "ReplayPlayer";
+    private string boxlayer = "Box";
+    private Vector2 ReplayerSize;
+    private Vector2 boxSize;
+
 
     private void Start()
     {
@@ -39,6 +44,9 @@ public class Replaymove : MonoBehaviour
         StartTime = Time.time;
         CurrentTime = Time.time;
         pregravity = rb.gravityScale;
+        ReplayerSize = coll.size;
+        boxSize = new Vector2(1f, 1f);
+
     }
 
     // Update is called once per frame
@@ -111,11 +119,15 @@ public class Replaymove : MonoBehaviour
             {
                 rb.velocity = new Vector2(0, 0);
                 rb.gravityScale = 0;
+                coll.size = boxSize;
+                this.gameObject.layer = LayerMask.NameToLayer(boxlayer);
                 UpdateAnimationState();
                 return;
             }
             else
             {
+                this.gameObject.layer = LayerMask.NameToLayer(ReplayPlayerlayer);
+                coll.size = ReplayerSize;
                 rb.gravityScale = pregravity;
             }
             //最后一个键为空(松开)，用空键来确定结束的时间

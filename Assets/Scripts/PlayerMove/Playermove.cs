@@ -34,7 +34,10 @@ public class Playermove : MonoBehaviour
     public PhysicsMaterial2D p2;    
     private bool isbox = false;
     private float pregravity;
-
+    private Vector2 playerSize;
+    private Vector2 boxSize;
+    private string playerlayer = "Player";
+    private string boxlayer = "Box";
 
     private void Start()
     {
@@ -42,6 +45,8 @@ public class Playermove : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         rb.sharedMaterial = p1;
         pregravity=rb.gravityScale;
+        playerSize = coll.size;
+        boxSize = new Vector2(1f, 1f);
     }
 
     void Update()
@@ -65,10 +70,14 @@ public class Playermove : MonoBehaviour
         if (isbox)
         {
             //静止物体的移动和跳跃
+            coll.size = boxSize;
+            this.gameObject.layer=LayerMask.NameToLayer(boxlayer);
             changeBox();
         }
         else
         {
+            this.gameObject.layer = LayerMask.NameToLayer(playerlayer);
+            coll.size = playerSize;
             //恢复重力
             rb.gravityScale = pregravity;
             // 处理角色的物理移动

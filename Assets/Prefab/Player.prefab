@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 883815991457265771}
   - component: {fileID: 883815991457265748}
   - component: {fileID: 883815991457265749}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &883815991492232030
 Transform:
   m_ObjectHideFlags: 0
@@ -438,5 +438,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.5}
   m_EdgeRadius: 0

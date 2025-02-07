@@ -1596,10 +1596,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 883815991492232027, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 883815991492232030, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1856,7 +1852,7 @@ GameObject:
   - component: {fileID: 3315095234805081376}
   - component: {fileID: 3315095234805081375}
   - component: {fileID: 3315095234805081374}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
