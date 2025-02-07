@@ -24,7 +24,7 @@ public class Playermove : MonoBehaviour
     private float moveSpeed = 7f;
     [Header("跳跃力")]
     [SerializeField] 
-    private float jumpForce = 7f;
+    private float jumpForce = 14f;
     [Header("跳跃音效")]
     [SerializeField] 
     private AudioSource jumpSoundEffect;

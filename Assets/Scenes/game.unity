@@ -4246,6 +4246,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 883815991492232026, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
+      propertyPath: jumpForce
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 883815991492232027, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4260,11 +4264,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 883815991492232030, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.99
+      value: -10.18
       objectReference: {fileID: 0}
     - target: {fileID: 883815991492232030, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.58
+      value: 2.24
       objectReference: {fileID: 0}
     - target: {fileID: 883815991492232030, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4298,9 +4302,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 883815991492232031, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
+      propertyPath: m_GravityScale
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5940316503751722226, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5940316503751722226, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5940316503751722226, guid: 8ba1cebdf7ce36b48b643de074ecff53, type: 3}
       propertyPath: m_Offset.y
-      value: 0
+      value: -0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
