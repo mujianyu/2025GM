@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -204,8 +205,9 @@ public class Playermove : MonoBehaviour
 
     private bool IsGrounded()
     {
-        Vector2 size = new Vector2(coll.bounds.size.x / 2, 0.1f);
-        Vector2 pos = new Vector2(coll.bounds.center.x, coll.bounds.center.y - coll.bounds.size.y / 2);
-        return Physics2D.BoxCast(pos, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
+        Vector2 size = new Vector2(coll.bounds.size.x / 2, 0.2f);
+        Vector2 pos = new Vector2(coll.bounds.center.x, coll.bounds.center.y - coll.bounds.size.y / 2+0.1f);
+        return Physics2D.BoxCast(pos, size, 0f, Vector2.down, 0.1f, jumpableGround);
+
     }
 }
