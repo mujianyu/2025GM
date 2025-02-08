@@ -38,6 +38,7 @@ public class Playermove : MonoBehaviour
     private Vector2 boxSize;
     private string playerlayer = "Player";
     private string boxlayer = "Box";
+    
 
     private void Start()
     {
@@ -72,11 +73,13 @@ public class Playermove : MonoBehaviour
             //静止物体的移动和跳跃
             coll.size = boxSize;
             this.gameObject.layer=LayerMask.NameToLayer(boxlayer);
+            
             changeBox();
         }
         else
         {
             this.gameObject.layer = LayerMask.NameToLayer(playerlayer);
+          
             coll.size = playerSize;
             //恢复重力
             rb.gravityScale = pregravity;
