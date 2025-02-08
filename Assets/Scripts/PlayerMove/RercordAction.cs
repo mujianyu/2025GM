@@ -11,17 +11,32 @@ public class RercordAction : MonoBehaviour
     public bool RecordStart = false;
     private bool isbox=false;
     private bool isboxstateChange = false;//第一次变成box状态
+    private float currentTime;
+    private float startTime=0f;
+    
+    private void Start()
+    {
+        startTime = Time.time;
+    }
     private void Update()
     {
-        if (!RecordStart)
-        {
-            return;
-        }
+
+        //if (!RecordStart)
+        //{
+        //    return;
+        //}
+
         List<Action.RecordState> state = new List<Action.RecordState>();
-        float time = Time.time;
+        float time = Time.time-startTime;
             
         if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
         {
+            if(startTime== 0)
+            {
+                actionBase.startTime=time;
+                startTime = time;
+            }
+
             if (Input.GetKey(KeyCode.A))
             {
                 state.Add(Action.RecordState.Left);

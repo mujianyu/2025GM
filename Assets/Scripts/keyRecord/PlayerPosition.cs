@@ -29,6 +29,10 @@ public class PlayerPosition : ScriptableObject
             this.time = time;
         }
     }
+    public void clear()
+    {
+        pos.Clear();
+    }
 
     public List<Pos> pos=new List<Pos>(); 
 }

@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac097d9f517102d4392cb8c9369570b0, type: 3}
-  m_Name: PlayerAction
+  m_Name: PA2
   m_EditorClassIdentifier: 
   actions: []

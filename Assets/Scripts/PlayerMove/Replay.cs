@@ -10,6 +10,7 @@ public class Replay : MonoBehaviour
     
     private bool statr = false;
     public RercordAction Recordaction;
+   
     public ActionBase actionBase;
     private void Start()
     {

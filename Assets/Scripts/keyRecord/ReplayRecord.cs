@@ -8,6 +8,8 @@ public class ReplayRecord : MonoBehaviour
     public float startTime;
     public float currentTime;
     public Animator anim;
+    private int index=0;
+    
     private void Start()
     {
         startTime = Time.time;
@@ -17,15 +19,15 @@ public class ReplayRecord : MonoBehaviour
     private void FixedUpdate()
     {
         currentTime +=Time.fixedDeltaTime;
-        if (playerPosition.pos.Count > 0)
+        if (playerPosition.pos.Count > index)
         {
-            if (currentTime - startTime > playerPosition.pos[0].time)
+            if (currentTime - startTime > playerPosition.pos[index].time)
             {
-                transform.position = playerPosition.pos[0].position;
-                transform.eulerAngles = playerPosition.pos[0].rotation;
-                transform.localScale = playerPosition.pos[0].scale;
-                anim.SetInteger("ReplayState", (int)playerPosition.pos[0].playerState);
-                playerPosition.pos.RemoveAt(0);
+                transform.position = playerPosition.pos[index].position;
+                transform.eulerAngles = playerPosition.pos[index].rotation;
+                transform.localScale = playerPosition.pos[index].scale;
+                anim.SetInteger("ReplayState", (int)playerPosition.pos[index].playerState);
+                index++;
             }
             else return;
         }

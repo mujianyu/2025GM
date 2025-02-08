@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class ActionBase : ScriptableObject
 {
-    
+    public float startTime;
     public List<Action> actions = new List<Action>();
     public void clear()
     {

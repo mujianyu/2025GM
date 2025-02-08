@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
@@ -11,6 +11,7 @@ public class Replaymove : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     public Animator anim;
+    
 
     private float dirX = 0f;
     private float StartTime= 0f;
@@ -35,8 +36,9 @@ public class Replaymove : MonoBehaviour
     private string boxlayer = "Box";
     private Vector2 ReplayerSize;
     private Vector2 boxSize;
-
-
+    private bool startPlay = false;
+    private int index = 0;
+    private float firstStartTime= 0f;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -49,22 +51,27 @@ public class Replaymove : MonoBehaviour
 
     }
 
+
     // Update is called once per frame
     private void FixedUpdate()
     {
 
+    
         CurrentTime = Time.time - StartTime;
+        Debug.Log(CurrentTime);
 
-        if (actionBase.actions.Count > 0)
+        if (index < actionBase.actions.Count)
         {
             List<Action> canActions = new List<Action>();
 
             //处理快速移动，将当前时间点所有的 action 添加到 canActions 中
-            foreach (var action in actionBase.actions)
+            for(int i=index;i<actionBase.actions.Count; i++)
             {
-                if(CurrentTime >=action.time)
+                if(CurrentTime >= actionBase.actions[i].time)
                 {
-                    canActions.Add(action);
+
+
+                    canActions.Add(actionBase.actions[i]);
                 }else{
                     break;
                 }
@@ -101,7 +108,8 @@ public class Replaymove : MonoBehaviour
                 }
 
 
-                actionBase.actions.RemoveAt(0);
+                //actionBase.actions.RemoveAt(0);
+                index++;
             }
 
             //处理变换，得到变化的次数

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static Action;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent (typeof(BoxCollider2D))]
@@ -16,6 +17,10 @@ public class Playermove : MonoBehaviour
     public Animator anim;
     private float dirX = 0f;
     private bool isJumping = false;
+
+    //记录
+
+
     private enum MovementState { Idle, Run, Jump,Box };
 
     [SerializeField] 
@@ -39,8 +44,9 @@ public class Playermove : MonoBehaviour
     private Vector2 boxSize;
     private string playerlayer = "Player";
     private string boxlayer = "Box";
-    
-
+    private bool end = false;
+    public PlayerPosition playerPosition;
+    private float startTime;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -49,11 +55,19 @@ public class Playermove : MonoBehaviour
         pregravity=rb.gravityScale;
         playerSize = coll.size;
         boxSize = new Vector2(1f, 1f);
+        startTime = Time.time;
+    }
+    public void setStartTime(float time)
+    {
+        startTime = time;
     }
 
     void Update()
     {
-
+        if(end)
+        {
+            return;
+        }
         //获取变换box输入
         HandleChangeInput();
         if(isbox)
@@ -69,6 +83,10 @@ public class Playermove : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(end)
+        {
+            return;
+        }
         if (isbox)
         {
             //静止物体的移动和跳跃
@@ -107,6 +125,9 @@ public class Playermove : MonoBehaviour
 
         // 更新动画状态
         UpdateAnimationState();
+
+
+
     }
     private void changeBox()
     {
@@ -118,16 +139,19 @@ public class Playermove : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.A))
         {
+   
              dirX = 0f;
              return;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
+     
             dirX = -1f; // A 键按下，值为 -1
         }
         else if (Input.GetKey(KeyCode.D))
         {
+          
             dirX = 1f;  // D 键按下，值为 1
         }
         else
@@ -199,7 +223,7 @@ public class Playermove : MonoBehaviour
         {
             state = MovementState.Box;
         }
-
+        playerPosition.pos.Add(new PlayerPosition.Pos(transform.position, transform.eulerAngles, transform.localScale, (PlayerPosition.PlayerState)state, Time.time-startTime));
         anim.SetInteger("state", (int)state);
     }
 
@@ -210,4 +234,15 @@ public class Playermove : MonoBehaviour
         return Physics2D.BoxCast(pos, size, 0f, Vector2.down, 0.1f, jumpableGround);
 
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Finish"))
+        {
+            end = true;
+        }
+    }
+
+
+
+
 }
