@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
             state = MovementState.Box;
         }
         //±£´æ
-        playerPosition.pos.Add(new PlayerPosition.Pos(transform.position, transform.eulerAngles, (PlayerPosition.PlayerState)state, Time.time));
+        playerPosition.pos.Add(new PlayerPosition.Pos(transform.position, transform.eulerAngles,transform.localScale, (PlayerPosition.PlayerState)state, Time.time));
         anim.SetInteger("state", (int)state);
     }
  

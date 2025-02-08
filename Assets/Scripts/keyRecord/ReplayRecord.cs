@@ -23,6 +23,7 @@ public class ReplayRecord : MonoBehaviour
             {
                 transform.position = playerPosition.pos[0].position;
                 transform.eulerAngles = playerPosition.pos[0].rotation;
+                transform.localScale = playerPosition.pos[0].scale;
                 anim.SetInteger("ReplayState", (int)playerPosition.pos[0].playerState);
                 playerPosition.pos.RemoveAt(0);
             }
