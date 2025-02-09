@@ -25,6 +25,9 @@ public class Playermove : MonoBehaviour
 
     [SerializeField] 
     private LayerMask jumpableGround;
+    [SerializeField]
+    private LayerMask box;
+
     [Header("移动速度")]
     [SerializeField] 
     private float moveSpeed = 7f;
@@ -55,6 +58,7 @@ public class Playermove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+        box= LayerMask.GetMask("Box");
         transform.position=startTransform.position;
         rb.sharedMaterial = p1;
         pregravity=rb.gravityScale;
@@ -236,7 +240,7 @@ public class Playermove : MonoBehaviour
     {
         Vector2 size = new Vector2(coll.bounds.size.x / 2, 0.2f);
         Vector2 pos = new Vector2(coll.bounds.center.x, coll.bounds.center.y - coll.bounds.size.y / 2+0.1f);
-        return Physics2D.BoxCast(pos, size, 0f, Vector2.down, 0.1f, jumpableGround);
+        return Physics2D.BoxCast(pos, size, 0f, Vector2.down, 0.1f, jumpableGround) || Physics2D.BoxCast(pos, size, 0f, Vector2.down, 0.1f, box);
 
     }
     public void OnTriggerEnter2D(Collider2D collision)

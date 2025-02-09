@@ -714,6 +714,9 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 8
+  box:
+    serializedVersion: 2
+    m_Bits: 0
   moveSpeed: 7
   jumpForce: 14
 --- !u!82 &557697616
@@ -927,7 +930,7 @@ MonoBehaviour:
   actionBase: {fileID: 11400000, guid: 664507bd55af1524483ce275ef6234b7, type: 2}
   RecordStart: 0
   isboxstateChange: 0
-  playermove: {fileID: 0}
+  playermove: {fileID: 568284480}
 --- !u!114 &568284480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -945,6 +948,9 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 8
+  box:
+    serializedVersion: 2
+    m_Bits: 0
   moveSpeed: 7
   jumpForce: 14
   jumpSoundEffect: {fileID: 568284481}
@@ -2187,7 +2193,7 @@ PrefabInstance:
     - target: {fileID: 7198879926664987531, guid: 3aadc01a7ce7d324c9c18d8eca8dcb82, type: 3}
       propertyPath: playerPosition
       value: 
-      objectReference: {fileID: 11400000, guid: c2c7457e73fe71d49a54edf04232135e, type: 2}
+      objectReference: {fileID: 11400000, guid: d590fd8f2c6941d4183127df66dc7abc, type: 2}
     - target: {fileID: 7198879926664987533, guid: 3aadc01a7ce7d324c9c18d8eca8dcb82, type: 3}
       propertyPath: m_Name
       value: ReplayPlayerGhost
@@ -17671,6 +17677,10 @@ PrefabInstance:
     - target: {fileID: 8470664819754824285, guid: fedc7337bb4c15d4a9c93040b7a8185f, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470664819754824285, guid: fedc7337bb4c15d4a9c93040b7a8185f, type: 3}
+      propertyPath: m_TagString
+      value: Finish
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

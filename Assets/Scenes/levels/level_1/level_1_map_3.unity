@@ -340,7 +340,7 @@ PrefabInstance:
     - target: {fileID: 7198879926664987531, guid: 3aadc01a7ce7d324c9c18d8eca8dcb82, type: 3}
       propertyPath: playerPosition
       value: 
-      objectReference: {fileID: 11400000, guid: c2c7457e73fe71d49a54edf04232135e, type: 2}
+      objectReference: {fileID: 11400000, guid: 2789bfe51ae570944b218f7d0094fc86, type: 2}
     - target: {fileID: 7198879926664987533, guid: 3aadc01a7ce7d324c9c18d8eca8dcb82, type: 3}
       propertyPath: m_Name
       value: ReplayPlayerGhost
@@ -831,6 +831,9 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 8
+  box:
+    serializedVersion: 2
+    m_Bits: 0
   moveSpeed: 7
   jumpForce: 14
 --- !u!82 &831322667
@@ -1177,7 +1180,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 692, y: 305}
+  m_AnchoredPosition: {x: 704, y: 477}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1069389821
@@ -1690,7 +1693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 266, y: 305}
+  m_AnchoredPosition: {x: 278, y: 477}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1597047124
@@ -2155,6 +2158,9 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 8
+  box:
+    serializedVersion: 2
+    m_Bits: 0
   moveSpeed: 7
   jumpForce: 14
 --- !u!82 &1807231102
@@ -2731,7 +2737,7 @@ MonoBehaviour:
   actionBase: {fileID: 11400000, guid: 3b2831b0eeeb99a4197d27064dfaf39d, type: 2}
   RecordStart: 0
   isboxstateChange: 0
-  playermove: {fileID: 0}
+  playermove: {fileID: 2044773287}
 --- !u!114 &2044773287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2749,13 +2755,16 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 8
+  box:
+    serializedVersion: 2
+    m_Bits: 0
   moveSpeed: 7
   jumpForce: 14
   jumpSoundEffect: {fileID: 2044773288}
   p1: {fileID: 6200000, guid: b1a79a9be55fbac41b54886417a61dd8, type: 2}
   p2: {fileID: 6200000, guid: db5d87b00d5728e49939531316cb1c15, type: 2}
   end: 0
-  playerPosition: {fileID: 11400000, guid: d590fd8f2c6941d4183127df66dc7abc, type: 2}
+  playerPosition: {fileID: 11400000, guid: 2789bfe51ae570944b218f7d0094fc86, type: 2}
   startTransform: {fileID: 868109172}
   startTime: 0
   scene: 0

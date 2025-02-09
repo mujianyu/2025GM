@@ -23,6 +23,8 @@ public class Replaymove : MonoBehaviour
 
     [SerializeField] 
     private LayerMask jumpableGround;
+    [SerializeField]
+    private LayerMask box;
     [Header("移动速度")]
     [SerializeField] 
     private float moveSpeed = 7f;
@@ -45,7 +47,8 @@ public class Replaymove : MonoBehaviour
 
     private void Start()
     {
-       actionBase= GameObject.Find("GameData").GetComponent<single>().t[scene];
+        box = LayerMask.GetMask("Box");
+        actionBase = GameObject.Find("GameData").GetComponent<single>().t[scene];
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
         CurrentTime = Time.time;
@@ -226,6 +229,6 @@ public class Replaymove : MonoBehaviour
     {
         Vector2 size = new Vector2(coll.bounds.size.x / 2, 0.2f);
         Vector2 pos = new Vector2(coll.bounds.center.x, coll.bounds.center.y - coll.bounds.size.y / 2 + 0.1f);
-        return Physics2D.BoxCast(pos, size, 0f, Vector2.down, 0.1f, jumpableGround);
+        return Physics2D.BoxCast(pos, size, 0f, Vector2.down, 0.1f, jumpableGround)|| Physics2D.BoxCast(pos, size, 0f, Vector2.down, 0.1f, box);
     }
 }

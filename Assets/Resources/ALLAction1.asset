@@ -12,30 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac097d9f517102d4392cb8c9369570b0, type: 3}
   m_Name: ALLAction1
   m_EditorClassIdentifier: 
-  actions:
-  - state: 01000000
-    time: 0.5991633
-  - state: 
-    time: 0.9119997
-  - state: 01000000
-    time: 1.1603038
-  - state: 
-    time: 1.4671531
-  - state: 02000000
-    time: 1.5465899
-  - state: 03000000
-    time: 1.8826361
-  - state: 03000000
-    time: 2.24897
-  - state: 02000000
-    time: 2.840323
-  - state: 03000000
-    time: 3.3257074
-  - state: 03000000
-    time: 3.678975
-  - state: 02000000
-    time: 4.3468585
-  - state: 03000000
-    time: 4.6654706
-  - state: 03000000
-    time: 5.4217916
+  actions: []
