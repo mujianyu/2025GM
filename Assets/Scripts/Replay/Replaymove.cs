@@ -8,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Replaymove : MonoBehaviour
 {
+    public int scene;
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     public Animator anim;
@@ -39,16 +40,21 @@ public class Replaymove : MonoBehaviour
     private bool startPlay = false;
     private int index = 0;
     private float firstStartTime= 0f;
+    private float startTime;
+
+
     private void Start()
     {
+       actionBase= GameObject.Find("GameData").GetComponent<single>().t[scene];
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
-        StartTime = Time.time;
         CurrentTime = Time.time;
         pregravity = rb.gravityScale;
         ReplayerSize = coll.size;
         boxSize = new Vector2(1f, 1f);
-
+        startTime = Time.time;
+       
+        index = 0;
     }
 
 
@@ -56,9 +62,8 @@ public class Replaymove : MonoBehaviour
     private void FixedUpdate()
     {
 
-    
-        CurrentTime = Time.time - StartTime;
-        Debug.Log(CurrentTime);
+        CurrentTime = Time.time - startTime;
+ 
 
         if (index < actionBase.actions.Count)
         {
@@ -69,8 +74,6 @@ public class Replaymove : MonoBehaviour
             {
                 if(CurrentTime >= actionBase.actions[i].time)
                 {
-
-
                     canActions.Add(actionBase.actions[i]);
                 }else{
                     break;

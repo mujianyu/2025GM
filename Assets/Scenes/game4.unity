@@ -339,6 +339,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9173115707375720551, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
+      propertyPath: timeNow
+      value: 
+      objectReference: {fileID: 11400000, guid: 901ceac066c901d4fbb6c5eb91dbd2bf, type: 2}
+    - target: {fileID: 9173115707375720551, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
+      propertyPath: actionBase
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c99776747d049b4a865a7e598eb35be, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
@@ -608,6 +616,8 @@ MonoBehaviour:
   p1: {fileID: 6200000, guid: b1a79a9be55fbac41b54886417a61dd8, type: 2}
   p2: {fileID: 6200000, guid: db5d87b00d5728e49939531316cb1c15, type: 2}
   playerPosition: {fileID: 11400000, guid: 17531290505548a41835f35bc2ae4ace, type: 2}
+  startTransform: {fileID: 2075281696}
+  scene: 3
 --- !u!82 &614989586
 AudioSource:
   m_ObjectHideFlags: 0
@@ -755,6 +765,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionBase: {fileID: 11400000, guid: 63faafdaabf22e645bd3e19311201c47, type: 2}
   RecordStart: 0
+  isboxstateChange: 0
+  scene: 3
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,9 +1118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af2921c1b730874a93a64ceed52053e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ALLactionBase: {fileID: 11400000, guid: 01796a037abf6c2449c7055e040ebbc7, type: 2}
-  gameID: 4
   Replayer: {fileID: 1259892378601664920}
+  start: {fileID: 2075281696}
 --- !u!1 &924414767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1340,9 +1351,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9173115707375720551, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
+      propertyPath: scene
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173115707375720551, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
+      propertyPath: timeNow
+      value: 
+      objectReference: {fileID: 11400000, guid: 901ceac066c901d4fbb6c5eb91dbd2bf, type: 2}
+    - target: {fileID: 9173115707375720551, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
       propertyPath: actionBase
       value: 
-      objectReference: {fileID: 11400000, guid: b36dbc5591b2c044e9344853fd6b67f0, type: 2}
+      objectReference: {fileID: 11400000, guid: 3b2831b0eeeb99a4197d27064dfaf39d, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
@@ -4708,10 +4727,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e513bec5d24b3d14fada2b59cd326730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneID: 4
-  ALLactionBase: {fileID: 11400000, guid: 01796a037abf6c2449c7055e040ebbc7, type: 2}
-  aLLPos: {fileID: 11400000, guid: 4f4a885e2f9e1de458794a4c14cb7790, type: 2}
+  actionBase: {fileID: 11400000, guid: 8b7baddb6385a414abb77b29758e83fb, type: 2}
+  Pos: {fileID: 11400000, guid: 17531290505548a41835f35bc2ae4ace, type: 2}
   playermove: {fileID: 614989585}
+  action: {fileID: 614989590}
+  sceneID: 4
 --- !u!1 &1903213567
 GameObject:
   m_ObjectHideFlags: 3
@@ -5003,9 +5023,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9173115707375720551, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
+      propertyPath: scene
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173115707375720551, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
+      propertyPath: timeNow
+      value: 
+      objectReference: {fileID: 11400000, guid: 901ceac066c901d4fbb6c5eb91dbd2bf, type: 2}
+    - target: {fileID: 9173115707375720551, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
       propertyPath: actionBase
       value: 
-      objectReference: {fileID: 11400000, guid: a34ebebf184706b4eb9bf3b2339115d6, type: 2}
+      objectReference: {fileID: 11400000, guid: 664507bd55af1524483ce275ef6234b7, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d5ef8f9173345454eb118fc4af7fab52, type: 3}
@@ -5341,6 +5369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e588953b535dfb4c8070524058f782f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene: 0
   anim: {fileID: 1259892378637748887}
   actionBase: {fileID: 11400000, guid: 63faafdaabf22e645bd3e19311201c47, type: 2}
   jumpableGround:

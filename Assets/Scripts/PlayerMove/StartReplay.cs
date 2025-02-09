@@ -6,11 +6,8 @@ using UnityEngine.UI;
 public class StartReplay : MonoBehaviour
 {
     private Button StartRecord;
-
-
-    public ALLAction ALLactionBase;
-    public int gameID;
     public GameObject Replayer;
+    public Transform start;
     
     private void Start()
     {
@@ -19,7 +16,7 @@ public class StartReplay : MonoBehaviour
     }
     private void StartR()
     {
-
+        Replayer.transform.position = start.position;   
         Replayer.SetActive(true);
     }
 }

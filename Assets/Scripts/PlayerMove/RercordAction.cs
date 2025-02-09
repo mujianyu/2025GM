@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
 
@@ -8,23 +7,33 @@ using UnityEngine;
 public class RercordAction : MonoBehaviour
 {
     public ActionBase actionBase;
+    
     public bool RecordStart = false;
     private bool isbox=false;
-    private bool isboxstateChange = false;//第一次变成box状态
+    public bool isboxstateChange = false;//第一次变成box状态
     private float currentTime;
     private float startTime=0f;
-    
+    public Playermove playermove;
+
+ 
+
     private void Start()
     {
+        startTime = Time.time;
+        isbox = false;
+        isboxstateChange = false;
+
+
+    }
+
+    public void setUpStartTime()
+    {
+        isbox = false;
+        isboxstateChange = false;
         startTime = Time.time;
     }
     private void Update()
     {
-
-        //if (!RecordStart)
-        //{
-        //    return;
-        //}
 
         List<Action.RecordState> state = new List<Action.RecordState>();
         float time = Time.time-startTime;
@@ -33,7 +42,6 @@ public class RercordAction : MonoBehaviour
         {
             if(startTime== 0)
             {
-                actionBase.startTime=time;
                 startTime = time;
             }
 

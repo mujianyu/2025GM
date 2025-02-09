@@ -1,16 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "PlayerAction", menuName = "ScriptableObject/玩家行为", order = 0)]
+[CreateAssetMenu(fileName = "ALLAction", menuName = "ScriptableObject/所有动作", order = 0)]
 [System.Serializable]
 public class ActionBase : ScriptableObject
 {
-    public float startTime;
-    public List<Action> actions = new List<Action>();
-    public void clear()
-    {
-        actions.Clear();
-    }
-
+    public List<Action> actions ;
+    //public void clear()
+    //{
+    //    actions.Clear();
+    //}
 }

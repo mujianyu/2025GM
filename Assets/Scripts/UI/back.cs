@@ -19,4 +19,12 @@ public class back : MonoBehaviour
             SceneManager.LoadScene(5);
         }
     }
+    public void returnMenu()
+    {
+        SceneManager.LoadScene(5);
+    }
+    public void returnhome()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

@@ -44,28 +44,33 @@ public class Playermove : MonoBehaviour
     private Vector2 boxSize;
     private string playerlayer = "Player";
     private string boxlayer = "Box";
-    private bool end = false;
+    public bool end = false;
     public PlayerPosition playerPosition;
-    private float startTime;
+    public Transform startTransform;
+    public float startTime;
+    public int scene ;
+
+ 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+        transform.position=startTransform.position;
         rb.sharedMaterial = p1;
         pregravity=rb.gravityScale;
         playerSize = coll.size;
         boxSize = new Vector2(1f, 1f);
         startTime = Time.time;
+        
     }
-    public void setStartTime(float time)
-    {
-        startTime = time;
-    }
+
 
     void Update()
     {
+        
         if(end)
         {
+            
             return;
         }
         //获取变换box输入
@@ -238,6 +243,9 @@ public class Playermove : MonoBehaviour
     {
         if (collision.CompareTag("Finish"))
         {
+            gameObject.transform.position = coll.bounds.center;
+            anim.SetInteger("state", (int)PlayerPosition.PlayerState.Idle);
+            playerPosition.pos.Add(new PlayerPosition.Pos(transform.position, transform.eulerAngles, transform.localScale, PlayerPosition.PlayerState.Idle, Time.time - startTime));
             end = true;
         }
     }

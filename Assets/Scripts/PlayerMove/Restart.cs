@@ -7,22 +7,29 @@ using UnityEngine.SceneManagement;
 public class Restart : MonoBehaviour
 {
     private Button RestartB;
-
-    public int sceneID = 1;
-    public ALLAction ALLactionBase;
-    public ALLPos aLLPos;
+    public ActionBase actionBase;
+    public PlayerPosition Pos;
     public Playermove playermove;
+    public RercordAction action;
+    public GameObject player;
+    public GameObject ghost;
+    public Transform start;
+
     private void Start()
     {
         RestartB = GetComponent<Button>();
         RestartB.onClick.AddListener(RestartR);
+        
     }
     private void RestartR()
     {
-        ALLactionBase.actionBases[sceneID - 1].clear();
-        aLLPos.actionBases[sceneID - 1].clear();
-        playermove.setStartTime(Time.time);
-        SceneManager.LoadScene(sceneID);
+        actionBase.actions.Clear();
+        Pos.clear();
+        action.setUpStartTime();
+        playermove.startTime = Time.time;
+        playermove.end = false;
+        player.transform.position = start.position;
+        ghost.transform.position = start.position;
         
     }
 

@@ -1,19 +1,24 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ReplayRecord : MonoBehaviour
 {
     public PlayerPosition playerPosition;
+    public Transform player;
     public float startTime;
     public float currentTime;
     public Animator anim;
     private int index=0;
-    
-    private void Start()
+    public CinemachineVirtualCamera cinemachine;
+    private void OnEnable()
     {
+        index = 0;
         startTime = Time.time;
         currentTime = Time.time;
+        cinemachine.Follow=this.transform;
     }
 
     private void FixedUpdate()
@@ -29,8 +34,21 @@ public class ReplayRecord : MonoBehaviour
                 anim.SetInteger("ReplayState", (int)playerPosition.pos[index].playerState);
                 index++;
             }
-            else return;
+            else
+            {
+                cinemachine.Follow = player;
+                return;
+            };
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Finish"))
+        {
+            cinemachine.Follow = player;
 
+            this.gameObject.SetActive(false);
+        }
+    }
+    
 }

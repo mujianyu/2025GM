@@ -10,7 +10,7 @@ public class Replay : MonoBehaviour
     
     private bool statr = false;
     public RercordAction Recordaction;
-   
+    public int scene = 0;
     public ActionBase actionBase;
     private void Start()
     {
@@ -27,7 +27,7 @@ public class Replay : MonoBehaviour
         else
         {
             statr = true;
-            actionBase.clear();
+            //actionBase.clear();
             Recordaction.RecordStart = true;
         }
     }
